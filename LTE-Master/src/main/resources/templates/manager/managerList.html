@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+  <!-- Theme style -->
+  <link rel="stylesheet" th:href="@{/AdminLTE-master/dist/css/adminlte.min.css}">
+ <!-- DataTables -->
+  <link rel="stylesheet" th:href="@{/AdminLTE-master/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css}">
+  <link rel="stylesheet" th:href="@{/AdminLTE-master/plugins/datatables-responsive/css/responsive.bootstrap4.min.css}">
+  <link rel="stylesheet" th:href="@{/AdminLTE-master/plugins/datatables-buttons/css/buttons.bootstrap4.min.css}">
+
+<title th:text="${title}">강사 급여 정산</title>
+</head>
+<body>
+	<section class="content">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-12">
+					<div class="card">
+						<div class="card-header">
+							<h3 class="card-title">강사 목록</h3>
+						</div>
+						<!-- /.card-header -->
+						<div class="card-body">
+							<form id="chooseTeacher" th:action="@{/teacherSalary}" method="post"> </form>
+							<table id="example2" class="table table-bordered table-hover" style="text-align: center;">
+								<thead>
+									<tr>
+										<th>강사 아이디</th>
+										<th>이름</th>
+										<th>계약 유형</th>
+										<th>단위 급여</th>
+										<td></td>
+									</tr>
+								</thead>
+								<tbody>
+									<tr th:each="teacher : ${teacherList}">
+										<td th:text="${teacher.teacherId}" class="ID">
+											<input type="hidden" name="teacherId" th:value="${teacher.teacherId}">
+										</td>
+										<td th:text="${teacher.teacherName}"></td>
+										<td th:text="${teacher.contractType}"></td>
+										<td th:text="${teacher.hourlyRate}"></td>
+										<td>
+											<button type="button" name="teacher" class="choose">선택</button>
+										</td>
+									</tr>
+
+								</tbody>
+								<tfoot>
+									<tr>
+										<th>강사 아이디</th>
+										<th>이름</th>
+										<th>계약 유형</th>
+										<th>단위 급여</th>
+										<th></th>
+									</tr>
+								</tfoot>
+							</table>
+						</div>
+						<!-- /.card-body -->
+					</div>
+					<!-- /.card -->
+				</div>
+				<!-- /.col -->
+			</div>
+			<!-- /.row -->
+		</div>
+		<!-- /.container-fluid -->
+	</section>
+
+</body>
+<!-- jQuery -->
+<script th:src="@{/AdminLTE-master/plugins/jquery/jquery.min.js}"></script>
+<!-- Bootstrap 4 -->
+<script th:src="@{/AdminLTE-master/plugins/bootstrap/js/bootstrap.bundle.min.js}"></script>
+<!-- DataTables  & Plugins -->
+<script th:src="@{/AdminLTE-master/plugins/datatables/jquery.dataTables.min.js}"></script>
+<script th:src="@{/AdminLTE-master/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js}"></script>
+<script th:src="@{/AdminLTE-master/plugins/datatables-responsive/js/dataTables.responsive.min.js}"></script>
+<script th:src="@{/AdminLTE-master/plugins/datatables-responsive/js/responsive.bootstrap4.min.js}"></script>
+<script th:src="@{/AdminLTE-master/plugins/datatables-buttons/js/dataTables.buttons.min.js}"></script>
+<script th:src="@{/AdminLTE-master/plugins/datatables-buttons/js/buttons.bootstrap4.min.js}"></script>
+<script th:src="@{/AdminLTE-master/plugins/jszip/jszip.min.js}"></script>
+<script th:src="@{/AdminLTE-master/plugins/pdfmake/pdfmake.min.js}"></script>
+<script th:src="@{/AdminLTE-master/plugins/pdfmake/vfs_fonts.js}"></script>
+<script th:src="@{/AdminLTE-master/plugins/datatables-buttons/js/buttons.html5.min.js}"></script>
+<script th:src="@{/AdminLTE-master/plugins/datatables-buttons/js/buttons.print.min.js}"></script>
+<script th:src="@{/AdminLTE-master/plugins/datatables-buttons/js/buttons.colVis.min.js}"></script>
+<!-- AdminLTE App -->
+<script th:src="@{/AdminLTE-master/dist/js/adminlte.min.js}"></script>
+<!-- AdminLTE for demo purposes -->
+<!-- Page specific script -->
+<script>
+  $(function () {
+    $('#example2').DataTable({
+      "paging": true,
+      "lengthChange": false,
+      "searching": false,
+      "ordering": true,
+      "info": true,
+      "autoWidth": false,
+      "responsive": true,
+    });
+  });
+</script>
+<script type="text/javascript">
+	$(function(){
+		$('.choose').click(function(){
+			console.log('아이디 넘기기')
+			for(var i=0;i<$('.choose').length;i++){
+				if($('.choose')[i] == this){
+					var teacherId = $('.ID')[i].innerText;
+					console.log(teacherId)
+				}
+			}
+			var request = $.ajax({
+				url : "/teacherSalary", // 요청할 url 경로
+				method : "POST",
+				data : {
+					teacherId : teacherId // 전달할 파라미터
+				},
+				dataType : "html" // 받아올 포맷 방식
+			});
+			//응답이 완료되었을 경우 실행되는 부분
+			request.done(function(data) {
+				console.log(teacherId+"받아짐");
+				$('#chooseTeacher').submit();
+			});
+			//응답에 실패 혹은 오류 발생시 실행되는 부분
+			request.fail(function(jqXHR, textStatus) {
+				alert("Request failed: " + textStatus);
+			});
+		})
+	})
+</script>
+<!-- jQuery -->
+		<script th:src="@{/AdminLTE-master/plugins/jquery/jquery.min.js}"></script>
+		<!-- jQuery UI 1.11.4 -->
+		<script th:src="@{/AdminLTE-master/plugins/jquery-ui/jquery-ui.min.js}"></script>
+		<!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+		<script>
+		  $.widget.bridge('uibutton', $.ui.button)
+		</script>
+		<!-- Bootstrap 4 -->
+		<script th:src="@{/AdminLTE-master/plugins/bootstrap/js/bootstrap.bundle.min.js}"></script>
+		<!-- ChartJS -->
+		<script th:src="@{/AdminLTE-master/plugins/chart.js/Chart.min.js}"></script>
+		<!-- Sparkline -->
+		<script th:src="@{/AdminLTE-master/plugins/sparklines/sparkline.js}"></script>
+		<!-- daterangepicker -->
+		<script th:src="@{/AdminLTE-master/plugins/moment/moment.min.js}"></script>
+		<script th:src="@{/AdminLTE-master/plugins/daterangepicker/daterangepicker.js}"></script>
+		<!-- date-range-picker -->
+		<script th:src="@{/AdminLTE-master/plugins/daterangepicker/daterangepicker.js}"></script>
+		<!-- Tempusdominus Bootstrap 4 -->
+		<script th:src="@{/AdminLTE-master/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js}"></script>
+		<!-- Summernote -->
+		<script th:src="@{/AdminLTE-master/plugins/summernote/summernote-bs4.min.js}"></script>
+		<!-- overlayScrollbars -->
+		<script th:src="@{/AdminLTE-master/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js}"></script>
+		<!-- AdminLTE App -->
+		<script th:src="@{/AdminLTE-master/dist/js/adminlte.js}"></script>
+		<!-- AdminLTE for demo purposes -->
+		<script th:src="@{/AdminLTE-master/dist/js/demo.js}"></script>
+		<!-- AdminLTE dashboard demo (This is only for demo purposes) -->
+		<script th:src="@{/AdminLTE-master/dist/js/pages/dashboard.js}"></script>
+		<script>
+			$(function () {
+		    //Date range picker
+		    $('#reservation').daterangepicker()})
+		</script>
+		<!-- 김경수의 자바스크립트 코드 시작  -->
+		<script type="text/javascript">
+		 function popUp(){
+				var popupOpt = 'width=820px, height=777px, left=100, top=100, scrollbar=no'; 
+				var popHref = 'teacherList';
+			  	open(popHref, "페이지 이름 뭐하지", popupOpt);
+			  }
+		</script>
+</html>

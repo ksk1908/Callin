@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+		layout:decorate="@{layout/default}">
+	  
+<!-- contents layout:fragment 정의 -->
+<th:block layout:fragment="customContents"> 
+				<!-- Content Wrapper. Contains page content -->
+				  <div class="content-wrapper">
+				    <!-- Content Header (Page header) -->
+				    <section class="content-header">
+				      <div class="container-fluid">
+				        <div class="row mb-2">
+				          <div class="col-sm-6">
+				            <h1 th:text="${midTitle}">급여 정산</h1>
+				          </div>
+				          <div class="col-sm-6">
+				            <ol class="breadcrumb float-sm-right">
+				              <li class="breadcrumb-item"><a th:href="@{/}">Home</a></li>
+				              <li class="breadcrumb-item active" th:text="${midTitle}">급여 정산</li>
+				            </ol>
+				          </div>
+				        </div>
+				      </div><!-- /.container-fluid -->
+				    </section>
+				
+				    <!-- Main content -->
+				    <section class="content">
+				      <div class="container-fluid">
+				        <div class="row">
+				<!-- left column -->
+				          <div class="col-md-6">
+				            <!-- general form elements -->
+				            <div class="card card-secondary">
+				              <div class="card-header">
+				                <h3 class="card-title" th:text="${cardTitle}">강사 상세 정보</h3>
+				              </div>
+				              <!-- /.card-header -->
+				              <!-- form start -->
+				              <form>
+				                <div class="card-body">
+				               	<p>강사 선택</p>
+				                <div class="input-group mb-3">
+				                  <div class="input-group-prepend">
+				                    <button type="button" onclick="popUp()" class="btn btn-secondary">선택</button>
+				                  </div>
+				                  <!-- /btn-group -->
+				                  <input type="text" class="form-control">
+				                </div>
+				                  <div class="form-group">
+				                    <label for="teacherId">ID</label>
+				                    <input type="text" class="form-control" id="teacherId" placeholder="ID" th:value="${teacherId}" readonly="readonly" >
+				                  </div>
+				                  <div class="form-group">
+				                    <label for="teacherName">이름</label>
+				                    <input type="text" class="form-control"  id="teacherName"  placeholder="Name" th:value="${teacherName}" readonly="readonly" >
+				                  </div>
+				                  <div class="form-group">
+				                    <label for="teacherContractType">계약 유형</label>
+				                    <input type="text" class="form-control"   id="teacherContractType" placeholder="Contract-Type" th:value="${ContractType}" readonly="readonly" >
+				                  </div>
+				                  <div class="form-group">
+				                    <label for="teacherHourlyRate">단위 급여</label>
+				                    <input type="number" class="form-control"   id="teacherHourlyRate"  placeholder="Hourly-Rate" th:value="${HourlyRate}" readonly="readonly" >
+				                  </div>
+				                  <!-- Date range -->
+				                <div class="form-group">
+				                  <label>급여 산정 기간</label>
+				                  <div class="input-group">
+				                    <div class="input-group-prepend">
+				                      <span class="input-group-text">
+				                        <i class="far fa-calendar-alt"></i>
+				                      </span>
+				                    </div>
+				                    <input type="text" class="form-control float-right" id="reservation">
+				                  </div>
+				                  <!-- /.input group -->
+				                </div>
+				                <!-- /.form group -->
+				                  <div class="form-check">
+				                    <input type="checkbox" class="form-check-input" id="exampleCheck1">
+				                    <label class="form-check-label" for="exampleCheck1">Check me out</label>
+				                  </div>
+				                </div>
+				                <!-- /.card-body -->
+				
+				                <div class="card-footer">
+				                  <button type="submit" class="btn btn-secondary">Submit</button>
+				                </div>
+				              </form>
+				            </div>
+				            <!-- /.card -->
+				          </div>
+				<!--/.col (left) -->
+				<!-- Right column -->
+				          <div class="col-md-6">
+				            <!-- general form elements -->
+				            <div class="card card-secondary">
+				              <div class="card-header">
+				                <h3 class="card-title">정산 상세 내역</h3>
+				              </div>
+				              <!-- /.card-header -->
+				              <!-- form start -->
+				              <form>
+				                <div class="card-body">
+				                  <div class="form-group">
+				                    <p><label for="TWH">총 근무 시간(Minutes)</label></p>
+				                    <input type="number" id="TWH" class="form-control" placeholder="Total Working Hours" readonly="readonly">
+				                  </div>
+				                  <div class="form-group">
+				                    <label for="bonus">상여금(Bonus)</label>
+				                    <input type="number" id="bonus" class="form-control"  placeholder="Bonus" >
+				                  </div>
+				                  <div class="form-group">
+				                    <label for="deduction">기타 공제(Deduction)</label>
+				                    <input type="number" id="deduction" class="form-control"  placeholder="Deduction">
+				                  </div>
+				                  <div>
+				                  	<button type="button" class="btn btn-block btn-secondary btn-s">정산</button>
+				               	  </div>
+				               	  <br>
+				                  <div class="form-group">
+				                    <label>최종 지급액(PHP)</label>
+				                    <input type="number" class="form-control"  placeholder="Total Wage(PHP)"  readonly="readonly">
+				                  </div>
+				                  <div class="form-group">
+				                    <label>최종 지급액(KRW)</label>
+				                    <input type="number" class="form-control"  placeholder="Total Wage(KRW)"  readonly="readonly">
+				                  </div>
+				                </div>
+				                <!-- /.card-body -->
+				                   <div class="card-footer">
+				                  	<button type="button" class="btn btn-block btn-secondary btn-s">저장</button>
+				               	  </div>
+				              </form>
+				            </div>
+				            <!-- /.card -->
+				          </div>
+				<!--/.col (right) -->
+				          
+				        </div>
+				        
+				        <!-- /.row -->
+				      </div><!-- /.container-fluid -->
+				    </section>
+				    <!-- /.content -->
+				  </div>
+				 <!-- /.content-wrapper -->
+				</th:block>
+</html>
